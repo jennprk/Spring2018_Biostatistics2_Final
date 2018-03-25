@@ -1,0 +1,144 @@
+---
+title: "Descriptive_Analysis_grophs8to15"
+author: "Jieun Park"
+date: "3/25/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+library(data.table)
+```
+
+# Create and manipulate data for use
+
+```{r}
+data <- read.csv('/Users/jieun/Desktop/Biostat2/rhc.csv')
+
+#no of comorbid illnesses
+data$no_comorbid <- data$cardiohx + data$chfhx + data$dementhx + data$psychhx + data$chrpulhx + data$renalhx + data$liverhx + data$gibledhx + data$malighx + data$immunhx + data$transhx + data$amihx
+
+#selecting variables only mentioned in Table 1
+data = subset(data, select = c(age,sex,race,cat1,ca,dnr1,aps1,surv2md1,no_comorbid,adld3p,das2d3pc,temp1,hrt1,meanbp1,resp1,wblc1,wblc1,paco21,ph1,crea1,alb1,scoma1,swang1))
+
+#renaming columns
+colnames(data) <- c("age", "sex", "race", "primary_disease_cat","cancer","dnr","apache","prob_2mo_survival","no_comorbid","adl","dasi","temp","heart_rate","blood_pressure","resp_rate","wbc","PaO2/FIO2","PaCo2","ph","creatinine","albumin","glasgow_coma","rch")
+
+#creatiing age group
+setDT(data)[age <50, agegroup := "<50"]
+data[age >=50 & age <60, agegroup := "50 to <60"]
+data[age >=60 & age <70, agegroup := "60 to <70"]
+data[age >=70 & age <80, agegroup := "70 to <80"]
+data[age >=80, agegroup := ">=80"]
+
+#creating disease category
+setDT(data)[primary_disease_cat=="ARF", primary_dis_cat := "ARF"]
+data[primary_disease_cat=="MOSF w/Malignancy" | primary_disease_cat=="MOSF w/Sepsis", primary_dis_cat := "MOSF"]
+data[primary_disease_cat=="CHF", primary_dis_cat := "CHF"]
+data[primary_disease_cat=="Cirrhosis" |primary_disease_cat=="Colon Cancer" |primary_disease_cat=="Coma" |primary_disease_cat=="COPD" |primary_disease_cat=="Lung Cancer", primary_dis_cat := "Other"]
+
+#removing age and primary_disease
+data = subset(data, select = -c(age,primary_disease_cat))
+```
+
+# 8. Plots for number of comorbid illnesses(no_comorbid)
+
+```{r}
+# plot for number of comorbid illnesses(no_comorbid)
+ggplot(data,aes(x=no_comorbid,fill=rch,group=rch)) +
+  geom_bar() +
+  labs(title="Barplot of number of comorbid illness")
+
+ggplot(data,aes(x=no_comorbid,fill=rch,group=rch)) +
+  facet_grid(rch ~ .) +
+  geom_bar() +
+  labs(title="Barplot of number of comorbid illness")
+```
+
+# 9. Plots for ADL 2 week prior
+
+```{r}
+# plot for ADL 2 week prior
+ggplot(data,aes(x=adl,fill=rch,group=rch)) +
+  geom_bar() +
+  labs(title="Barplot of ADL")
+
+ggplot(data,aes(x=adl,fill=rch,group=rch)) +
+  facet_grid(rch ~ .) +
+  geom_bar() +
+  labs(title="Barplot of ADL")
+```
+
+# 10. Plots for DASI 2 week prior
+
+```{r}
+# plot for DASI 2 week prior
+ggplot(data,aes(x=dasi,fill=rch)) +
+  geom_density(alpha=.25) +
+  labs(title="Barplot of ADL")
+
+ggplot(data,aes(x=dasi,fill=rch)) +
+  facet_grid(rch ~ .) +
+  geom_density(alpha=.25) +
+  labs(title="Barplot of ADL")
+```
+
+
+# 11. Plot for LOS -> no info
+
+# 12. Plots for temperature
+ 
+```{r}
+# plot for temperature
+ggplot(data,aes(x=temp,fill=rch)) +
+  geom_density(alpha=.25) +
+  labs(title="Barplot of temperature")
+
+ggplot(data,aes(x=temp,fill=rch)) +
+  facet_grid(rch ~ .) +
+  geom_density(alpha=.25) +
+  labs(title="Barplot of temperature")
+```
+
+# 13. Plots for heart rate
+
+```{r}
+# plot for heart rate
+ggplot(data,aes(x=heart_rate,fill=rch)) +
+  geom_density(alpha=.25) +
+  labs(title="Barplot of heart rate")
+
+ggplot(data,aes(x=heart_rate,fill=rch)) +
+  facet_grid(rch ~ .) +
+  geom_density(alpha=.25) +
+  labs(title="Barplot of heart rate")
+```
+
+# 14. Plots for blood pressure
+
+```{r}
+# plot for blood pressure 
+ggplot(data,aes(x=blood_pressure,fill=rch)) +
+  geom_density(alpha=.25) +
+  labs(title="Barplot of blood pressure")
+
+ggplot(data,aes(x=blood_pressure,fill=rch)) +
+  facet_grid(rch~.) +
+  geom_density(alpha=.25) +
+  labs(title="Barplot of blood pressure")
+```
+
+# 15. plot for respiratory rate (breath/min)
+```{r}
+# plot for respiratory rate (breath/min)
+ggplot(data,aes(x=resp_rate,fill=rch)) +
+  geom_density(alpha=.25) +
+  labs(title="Barplot of respiratory rate")
+
+ggplot(data,aes(x=resp_rate,fill=rch)) +
+  facet_grid(rch~.) +
+  geom_density(alpha=.25) +
+  labs(title="Barplot of respiratory rate")
+```
