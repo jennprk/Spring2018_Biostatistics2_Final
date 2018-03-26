@@ -1,0 +1,25 @@
+a <- dat1 %>%
+group_by(agegroup) %>%
+  summarize(n=length(`agegroup`))
+b <- dat2 %>%
+group_by(agegroup) %>%
+  summarize(n=length(`agegroup`))
+t1 <- cbind(a, b$n)
+colnames(t1) <- c("variable","a","b")
+t1$RCH= paste0(format(t1$a),"(",format(round(t1$a/2184*100,0)),")")
+t1$NoRCH= paste0(format(t1$b),"(",format(round(t1$b/3551*100,0)),")")
+t1 <- as.data.frame(t1)
+t1 = subset(t1, select = c("variable","RCH","NoRCH"))
+line <- c("agegroup")
+line <- as.data.frame(line)
+colnames(line) <- "variable"
+line
+line2 <- c("")
+line2 <- as.data.frame(line2)
+colnames(line2) <- "RCH"
+line2
+df<-cbind(line,line2,line2)
+colnames(df) <- c("variable","RCH","NoRCH")
+df <- rbind(df,t1)
+
+knitr::kable(df, align = "c")
