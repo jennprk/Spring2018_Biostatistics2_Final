@@ -2,6 +2,7 @@
 
 library(data.table)
 library(ggplot2)
+
 #loading the data
 data = read.csv("~/Desktop/BioStat2/Final Project/rhc.csv", sep=",")
 
