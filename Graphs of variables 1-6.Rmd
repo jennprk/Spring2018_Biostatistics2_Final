@@ -1,3 +1,5 @@
+# Data Cleaning
+
 library(data.table)
 library(ggplot2)
 #loading the data
@@ -28,7 +30,11 @@ data[primary_disease_cat=="Cirrhosis" |primary_disease_cat=="Colon Cancer" |prim
 #removing age and primary_disease
 data = subset(data, select = -c(age,primary_disease_cat))
 
-# Barplot of Sex
+
+
+# Graphs of Variable 1-6
+
+## Barplot of Sex
 ggplot(data,aes(x=sex,fill=rch,group=rch)) +
   geom_bar() +
   labs(title="Barplot of Sex")
@@ -38,7 +44,7 @@ ggplot(data,aes(x=sex,fill=rch,group=rch)) +
   geom_bar() +
   labs(title="Barplot of Sex")
 
-# Barplot of Race
+## Barplot of Race
 ggplot(data,aes(x=race,fill=rch,group=rch)) +
   geom_bar() +
   labs(title="Barplot of Race")
@@ -48,7 +54,7 @@ ggplot(data,aes(x=race,fill=rch,group=rch)) +
   geom_bar() +
   labs(title="Barplot of Race")
 
-# Barplot of Cancer
+## Barplot of Cancer
 ggplot(data,aes(x=cancer,fill=rch,group=rch)) +
   geom_bar() +
   labs(title="Barplot of Cancer")
@@ -58,7 +64,7 @@ ggplot(data,aes(x=cancer,fill=rch,group=rch)) +
   geom_bar() +
   labs(title="Barplot of Cancer")
 
-# Barplot of DNR Status
+## Barplot of DNR Status
 ggplot(data,aes(x=dnr,fill=rch,group=rch)) +
   geom_bar() +
   labs(title="Barplot of DNR Status")
@@ -68,7 +74,7 @@ ggplot(data,aes(x=dnr,fill=rch,group=rch)) +
   geom_bar() +
   labs(title="Barplot of DNR Status")
 
-# Density Plot of APACHE III Score
+## Density Plot of APACHE III Score
 ggplot(data,aes(x=apache,fill=rch,group=rch)) +
   geom_density(alpha=.25)+
   labs(title="Density Plot of APACHE III Score")
@@ -79,7 +85,7 @@ ggplot(data,aes(x=apache,fill=rch,group=rch)) +
   labs(title="Density Plot of APACHE III Score")
 
 
-# Density Plot of Prob of 2-mo Survival
+## Density Plot of Prob of 2-mo Survival
 ggplot(data,aes(x=prob_2mo_survival,fill=rch,group=rch)) +
   geom_bar() +
   geom_density(alpha=.25)+
