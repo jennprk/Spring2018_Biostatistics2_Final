@@ -1,25 +1,47 @@
-a <- dat1 %>%
-group_by(agegroup) %>%
-  summarize(n=length(`agegroup`))
-b <- dat2 %>%
-group_by(agegroup) %>%
-  summarize(n=length(`agegroup`))
-t1 <- cbind(a, b$n)
-colnames(t1) <- c("variable","a","b")
-t1$RCH= paste0(format(t1$a),"(",format(round(t1$a/2184*100,0)),")")
-t1$NoRCH= paste0(format(t1$b),"(",format(round(t1$b/3551*100,0)),")")
-t1 <- as.data.frame(t1)
-t1 = subset(t1, select = c("variable","RCH","NoRCH"))
-line <- c("agegroup")
-line <- as.data.frame(line)
-colnames(line) <- "variable"
-line
-line2 <- c("")
-line2 <- as.data.frame(line2)
-colnames(line2) <- "RCH"
-line2
-df<-cbind(line,line2,line2)
-colnames(df) <- c("variable","RCH","NoRCH")
-df <- rbind(df,t1)
+dat1 <- data %>%
+  filter(rch=="RHC")
+
+dat2 <- data %>%
+  filter(rch=="No RHC")
+
+func <- function(x) {
+  x_quo <- enquo(x)
+  
+  a <- dat1 %>%
+    group_by(!! x_quo) %>%
+    summarise(n=length(!! x_quo))
+  b <- dat2 %>%
+    group_by(!! x_quo) %>%
+    summarise(n=length(!! x_quo))
+  
+  t1 <- cbind(a, b$n)
+  colnames(t1) <- c("variable","a","b")
+  
+  t1$RCH= paste0(format(t1$a),"(",format(round(t1$a/2184*100,0)),")")
+  t1$NoRCH= paste0(format(t1$b),"(",format(round(t1$b/3551*100,0)),")")
+  
+  t1 <- as.data.frame(t1)
+  t1 = subset(t1, select = c("variable","RCH","NoRCH"))
+  
+  line <- as.character(deparse(substitute(x)))
+  line <- as.data.frame(line)
+  colnames(line) <- "variable"
+  line2 <- c("")
+  line2 <- as.data.frame(line2)
+  colnames(line2) <- "RCH"
+  df<-cbind(line,line2,line2)
+  colnames(df) <- c("variable","RCH","NoRCH")
+  df
+  rbind(df,t1)
+}
+
+t1<-func(agegroup)
+t2<-func(sex)
+t3<-func(race)
+t4<-func(primary_dis_cat)
+t5<-func(cancer)
+t6<-func(dnr)
+
+df <- rbind(t1,t2,t3,t4,t5,t6)
 
 knitr::kable(df, align = "c")
