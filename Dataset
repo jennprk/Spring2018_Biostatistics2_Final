@@ -27,7 +27,7 @@ data = subset(data, select = -c(primary_disease_cat))
 
 data=data[complete.cases(data)]
 
-data$death <- as.numeric(ifelse(data$death == "Yes", 1, 0))
+data$death <- as.factor(ifelse(data$death == "Yes", 1, 0))
 
 View(data)
 str(data)
