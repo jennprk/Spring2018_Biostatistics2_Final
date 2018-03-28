@@ -1,0 +1,11 @@
+#Question 3 - Build a model to predict whether a patient will die in the first 180 days after hospitalization, based on all pre-treatment 
+covariates. Comment on the interpretation of the coefficients of this model.
+
+fit1<-glm(death~temp + heart_rate + blood_pressure + resp_rate + wbc + PaO2_FIO2 + PaCo2 + ph + sodium + potassium + hematocrit + 
+bilirubin + creatinine + albumin + glasgow_coma + age + sex + race + education + income + medical_insurance, data=data, family=binomial)
+summary(fit1)
+
+Each coefficient is the estimated amount by which the log odds of death would increase if each covariate were one unit higher. 
+For example, 0.0033066 is the estimated amount by which the log odds of death would increase if blood pressure were one unit higher. 
+The log odds of death when all other covariates is 0 is the intercept in the first row. In R, the the glm function will result in "NA" as
+the co-efficient for highly correlated variables.
