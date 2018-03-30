@@ -1,0 +1,18 @@
+#Question 4 - A co-investigator in this study tells you that she believes there is a differential effect of RHC on 180-day mortality according to primary disease category. Is there any evidence in the data to support this claim? Comment.
+
+data_ARF <- subset(data, primary_dis_cat == "ARF")
+data_MOSF <- subset(data, primary_dis_cat == "MOSF")
+data_CHF <- subset(data, primary_dis_cat == "CHF")
+data_Other <- subset(data, primary_dis_cat == "Other")
+
+fit_arf<-glm(death~temp + heart_rate + blood_pressure + resp_rate + wbc + PaCo2 + ph + sodium + potassium + hematocrit + bilirubin + creatinine + albumin + glasgow_coma + age + sex + race + education + income + medical_insurance + rch, data=data_ARF, family=binomial)
+summary(fit_arf)
+
+fit_mosf<-glm(death~temp + heart_rate + blood_pressure + resp_rate + wbc + PaCo2 + ph + sodium + potassium + hematocrit + bilirubin + creatinine + albumin + glasgow_coma + age + sex + race + education + income + medical_insurance + rch, data=data_MOSF, family=binomial)
+summary(fit_mosf)
+
+fit_CHF<-glm(death~temp + heart_rate + blood_pressure + resp_rate + wbc + PaCo2 + ph + sodium + potassium + hematocrit + bilirubin + creatinine + albumin + glasgow_coma + age + sex + race + education + income + medical_insurance + rch, data=data_CHF, family=binomial)
+summary(fit_CHF)
+
+fit_other<-glm(death~temp + heart_rate + blood_pressure + resp_rate + wbc + PaCo2 + ph + sodium + potassium + hematocrit + bilirubin + creatinine + albumin + glasgow_coma + age + sex + race + education + income + medical_insurance + rch, data=data_Other, family=binomial)
+summary(fit_other)
