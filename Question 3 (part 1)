@@ -1,11 +1,15 @@
 #Question 3 - Build a model to predict whether a patient will die in the first 180 days after hospitalization, based on all pre-treatment 
 covariates. Comment on the interpretation of the coefficients of this model.
 
-fit1<-glm(death~temp + heart_rate + blood_pressure + resp_rate + wbc + PaO2_FIO2 + PaCo2 + ph + sodium + potassium + hematocrit + 
-bilirubin + creatinine + albumin + glasgow_coma + age + sex + race + education + income + medical_insurance, data=data, family=binomial)
+#pre-treatment covariates
+fit1<-glm(death~temp + heart_rate + blood_pressure + resp_rate + wbc + PaO2_FIO2 + PaCo2 + ph + sodium + potassium + hematocrit + bilirubin + creatinine + albumin + glasgow_coma + age + sex + race + education + income + medical_insurance + rch, data=data, family=binomial)
 summary(fit1)
 
-Each coefficient is the estimated amount by which the log odds of death would increase if each covariate were one unit higher. 
-For example, 0.0033066 is the estimated amount by which the log odds of death would increase if blood pressure were one unit higher. 
-The log odds of death when all other covariates is 0 is the intercept in the first row. In R, the the glm function will result in "NA" as
-the co-efficient for highly correlated variables.
+#finding the correlation matrix to find out colinearity of PaO2_FIO2 since it is NA above
+my_data <- subset(data, select = c(temp, heart_rate, blood_pressure, resp_rate, wbc, PaO2_FIO2, PaCo2, ph, sodium, potassium, hematocrit, bilirubin, creatinine, albumin, glasgow_coma, age, education))
+res <- cor(my_data)
+round(res,2)
+
+#above result shows that there is a correlation of 1 with wbc, hence, we remove PaO2_FIO2, and creare a new model
+fit2<-glm(death~temp + heart_rate + blood_pressure + resp_rate + wbc + PaCo2 + ph + sodium + potassium + hematocrit + bilirubin + creatinine + albumin + glasgow_coma + age + sex + race + education + income + medical_insurance + rch, data=data, family=binomial)
+summary(fit2)
