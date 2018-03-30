@@ -5,7 +5,7 @@ date: "3/28/2018"
 output: pdf_document
 ---
 
-# Build a model to predict whether a patient will receive RHC as a function of all pre-RHCvariables.   Comment  on  the  interpretation  of  the  coefficients  of  this  model.   Comment  on potential issues regarding confounding of the effect of RHC on clinical outcomes in this study.
+# Build a model to predict whether a patient will receive RHC as a function of all pre-RHCvariables.   Comment  on  the  interpretation  of  the  coefficients  of  this  model.   Comment  on potential issues regarding confounding of the effect of RHC on clinical outcomes in this study. 
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -21,7 +21,7 @@ library(sandwich)
 ```{r}
 data <- read.csv('/Users/jieun/Desktop/Biostat2/rhc.csv')
 #loading the data
-
+View(data)
 #no of comorbid illnesses
 data$no_comorbid <- data$cardiohx + data$chfhx + data$dementhx + data$psychhx + data$chrpulhx + data$renalhx + data$liverhx + data$gibledhx + data$malighx + data$immunhx + data$transhx + data$amihx 
 
@@ -54,12 +54,15 @@ data$death <- as.factor(ifelse(data$death == "Yes", 1, 0))
 
 ```{r}
 # Model
-fit <- glm(rch ~ blood_pressure+heart_rate+resp_rate+ph+PaO2_FIO2+PaCo2+primary_dis_cat, data = data, family = binomial)
+names(data)
+fit <- glm(rch ~ age + sex + race + education + income + medical_insurance + blood_pressure+heart_rate+resp_rate+ph+PaO2_FIO2+PaCo2+primary_dis_cat, data = data, family = binomial)
 summary(fit)
 # odds ratios
 exp(coef(summary(fit)))
 
 ```
+
+(needs adding and changing)
 
 Through logistic regression, we aim to predict whether a patient will receive RHC as a function of all pre-RHC variables which are included in the model. 
 
@@ -81,39 +84,16 @@ For primary disease category of MOSF, the coefficient is 0.4632045, which is int
 
 For primary disease category of other, the coefficient is -0.8848958, which is interpreted as the expected change in log odds for a one-unit increase in the any other disease. We can say that for a one unit increase in any other disease, the odds of receiving RHC increase by a factor of 0.412.
 
+(ignore for now)
 With the linear model, we can predict whether or not a critically ill patient will use RHC using the pre RHC variables. However, we should be careful in interpreting that these variables have a causal effect of RHC as there might be confounders that affect both the outcome and the variables. In this case, the causal assumption that the outcome and variables should be independent given confounders, will be violated. For example, economic status can affect both the use of RHC and the pre RHC health indicators, as rich people tend to have better health and they can afford to get an RHC while the others are not. Also, age is another major confounder, as elderlies tend to have worse health status and they might be too old and unstable to get a surgery for RHC. Living environment can also be a confounder, as one who lives in an area without access to big hospitals facilitated for RHC can affect the use of RHC and the living environmnet can also affect the general health status. 
 
 
 
-```{r}
-plot(data$blood_pressure, exp(fit$residuals), ylab="Residuals")  ; abline(0, 0)
 
-qqnorm(exp(fit$residuals));qqline(exp(fit$residuals),col="blue")
-```
 
-```{r}
-se.lm <- summary(fit)$coef[,2]
-se.lm
 
-se.rb <- coeftest(fit, vcov = sandwich, df = 0)[,2]
-se.rb
 
-round(cbind(se.lm,se.rb,se.lm-se.rb),2)
-```
 
-```{r}
-# check dfbetas
-which(dfbetas(fit)[,2]< -2|dfbetas(fit)[,2] > 2)
-which(dfbetas(fit)[,3]< -2|dfbetas(fit)[,3] > 2)
-which(dfbetas(fit)[,4]< -2|dfbetas(fit)[,4] > 2)
-which(dfbetas(fit)[,5]< -2|dfbetas(fit)[,5] > 2)
-which(dfbetas(fit)[,6]< -2|dfbetas(fit)[,6] > 2)
-which(dfbetas(fit)[,7]< -2|dfbetas(fit)[,7] > 2)
-which(dfbetas(fit)[,8]< -2|dfbetas(fit)[,8] > 2)
-which(dfbetas(fit)[,9]< -2|dfbetas(fit)[,9] > 2)
-which(dfbetas(fit)[,10]< -2|dfbetas(fit)[,10] > 2)
-```
-No influential points.
 
 
 
