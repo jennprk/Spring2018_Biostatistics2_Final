@@ -1,6 +1,8 @@
 #Question 3 - Build a model to predict whether a patient will die in the first 180 days after hospitalization, based on all pre-treatment 
 covariates. Comment on the interpretation of the coefficients of this model.
 
+#Part 1
+
 #pre-treatment covariates
 fit1<-glm(death~temp + heart_rate + blood_pressure + resp_rate + wbc + PaO2_FIO2 + PaCo2 + ph + sodium + potassium + hematocrit + bilirubin + creatinine + albumin + glasgow_coma + age + sex + race + education + income + medical_insurance + primary_dis_cat + rch, data=data, family=binomial)
 summary(fit1)
@@ -13,3 +15,44 @@ round(res,2)
 #above result shows that there is a correlation of 1 with wbc, hence, we remove PaO2_FIO2, and creare a new model
 fit2<-glm(death~temp + heart_rate + blood_pressure + resp_rate + wbc + PaCo2 + ph + sodium + potassium + hematocrit + bilirubin + creatinine + albumin + glasgow_coma + age + sex + race + education + income + medical_insurance + primary_dis_cat + rch, data=data, family=binomial)
 summary(fit2)
+
+#Part 2
+
+# marginal risk ratio
+data_rhc1 <- as.data.frame(cbind(data[,-29], rhc=rep("RHC",nrow(data))))
+data_rhc0 <- as.data.frame(cbind(data[,-29], rhc=rep("No RHC",nrow(data))))
+data_rhc1$rhc <- as.factor(data_rhc1$rhc)
+data_rhc0$rhc <- as.factor(data_rhc0$rhc)
+p1 <- predict(fit2, newdata = data_rhc1, type = 'response')
+p0 <- predict(fit2, newdata = data_rhc0, type="response")
+rr <- mean(p1) / mean(p0)
+
+# marginal risk ratio and ci
+logit.bootstrap <- function(formula, data, indices) {
+  
+  d <- data[indices, ]
+  fit2 <- glm(formula, data = d, family = "binomial")
+  
+  d1 <- as.data.frame(cbind(data[,-29], rhc=rep("RHC",nrow(data))))
+  d <- as.data.frame(cbind(data[,-29], rhc=rep("No RHC",nrow(data))))
+  d1$rhc <- as.factor(d1$rhc)
+  d$rhc <- as.factor(d$rhc)
+  
+  p1 <- predict(fit2, newdata = d1, type = 'response')
+  p0 <- predict(fit2, newdata = d, type="response")
+  rr <- mean(p1) / mean(p0)
+  return(rr)
+}
+
+results_rr <- boot(data=data, statistic=logit.bootstrap, 
+                   R=100, formula=death~temp + heart_rate + blood_pressure + resp_rate + wbc + 
+                     PaCo2 + ph + sodium + potassium + hematocrit + bilirubin + 
+                     creatinine + albumin + glasgow_coma + age + sex + race + 
+                     education + income + medical_insurance + primary_dis_cat + rhc)
+
+ci_rr <- confint(results_rr)
+
+# tables
+x <- c(rr, ci_rr)
+colnames(x) <- c("Value", "Lower CI Bound", "Upper CI Bound")
+knitr::kable(x)
