@@ -1,8 +1,9 @@
+#creating the first half of table1
 dat1 <- data %>%
-  filter(rch=="RHC")
+  filter(rhc=="RHC")
 
 dat2 <- data %>%
-  filter(rch=="No RHC")
+  filter(rhc=="No RHC")
 
 func <- function(x) {
   x_quo <- enquo(x)
@@ -21,16 +22,16 @@ func <- function(x) {
   t1$NoRCH= paste0(format(t1$b),"(",format(round(t1$b/3551*100,0)),")")
   
   t1 <- as.data.frame(t1)
-  t1 = subset(t1, select = c("variable","RCH","NoRCH"))
+  t1 = subset(t1, select = c("variable","RHC","NoRHC"))
   
   line <- as.character(deparse(substitute(x)))
   line <- as.data.frame(line)
   colnames(line) <- "variable"
   line2 <- c("")
   line2 <- as.data.frame(line2)
-  colnames(line2) <- "RCH"
+  colnames(line2) <- "RHC"
   df<-cbind(line,line2,line2)
-  colnames(df) <- c("variable","RCH","NoRCH")
+  colnames(df) <- c("variable","RHC","NoRHC")
   df
   rbind(df,t1)
 }
