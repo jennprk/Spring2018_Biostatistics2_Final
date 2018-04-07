@@ -7,7 +7,7 @@ data$no_comorbid <- data$cardiohx + data$chfhx + data$dementhx + data$psychhx + 
 data = subset(data, select = c(age,sex,race,death,edu,income,ninsclas,cat1,ca,dnr1,aps1,surv2md1,no_comorbid,das2d3pc,temp1,hrt1,meanbp1,resp1,wblc1,wblc1,paco21,ph1,sod1,pot1,hema1,bili1,crea1,alb1,scoma1,swang1))
 
 #renaming columns
-colnames(data) <- c("age", "sex","race","death","education","income","medical_insurance","primary_disease_cat","cancer","dnr","apache","prob_2mo_survival","no_comorbid","dasi","temp","heart_rate","blood_pressure","resp_rate","wbc","PaO2_FIO2","PaCo2","ph","sodium","potassium","hematocrit","bilirubin","creatinine","albumin","glasgow_coma","rch")
+colnames(data) <- c("age", "sex","race","death","education","income","medical_insurance","primary_disease_cat","cancer","dnr","apache","prob_2mo_survival","no_comorbid","dasi","temp","heart_rate","blood_pressure","resp_rate","wbc","PaO2_FIO2","PaCo2","ph","sodium","potassium","hematocrit","bilirubin","creatinine","albumin","glasgow_coma","rhc")
 
 #creatiing age group
 setDT(data)[age <50, agegroup := "<50"]
