@@ -1,4 +1,3 @@
-```{r}
 #loading the raw data
 data <- read.csv('/Users/jieun/Desktop/Biostat2/rhc.csv')
 # Check NA values for each column
@@ -15,14 +14,13 @@ data$cat2 <- as.factor(data$cat2)
 data$no_comorbid <- data$cardiohx + data$chfhx + data$dementhx + data$psychhx + data$chrpulhx + data$renalhx + data$liverhx + data$gibledhx + data$malighx + data$immunhx + data$transhx + data$amihx 
 
 #selecting variables only mentioned in Table 1 but not adl as most values are missing
-#remove all date variables
 data <- data %>%
-  select(-c(X,adld3p,sadmdte,dschdte,dthdte,lstctdte,t3d30,dth30,ptid))
+  select(-c(X,adld3p,sadmdte,dschdte,dthdte,lstctdte,t3d30,dth30,ptid,urin1))
 
 names(data)
 
 #renaming columns
-colnames(data) <- c("primary_disease_cat","secondary_disease_cat","cancer","death","cardio_com",   "heartfailure_com","dementia_com","psychiatric_com","pulmonary_com","renal_com","Cirrhosis_com",     "GIbleed_com","malign_com","immune_com","transfer_com","myocardio_com","age","sex",         "education","survivalProb","DASI","APACHEscore","glasgow","bloodPressure","wbc","heartRate","respRate","temperature","PaO2FIO2ratio","albumin","hematocrit","bilirubin",       "creatinine","sodium","potassium","PaCo2","PH","rhc","weight", "DNR","medicalInsurance","respDiag","cardioDiag","neuroDiag","gastroDiag","renalDiag","metaDiag","hemaDiag","sepsisDiag","traumaDiag","orthoDiag","urine","race","income","no_comorbid")
+colnames(data) <- c("primary_disease_cat","secondary_disease_cat","cancer","death","cardio_com",   "heartfailure_com","dementia_com","psychiatric_com","pulmonary_com","renal_com","Cirrhosis_com",     "GIbleed_com","malign_com","immune_com","transfer_com","myocardio_com","age","sex",         "education","survivalProb","DASI","APACHEscore","glasgow","bloodPressure","wbc","heartRate","respRate","temperature","PaO2FIO2ratio","albumin","hematocrit","bilirubin",       "creatinine","sodium","potassium","PaCo2","PH","rhc","weight", "DNR","medicalInsurance","respDiag","cardioDiag","neuroDiag","gastroDiag","renalDiag","metaDiag","hemaDiag","sepsisDiag","traumaDiag","orthoDiag","race","income","no_comorbid")
 
 #creatiing age group
 setDT(data)[age <50, agegroup := "<50"]
@@ -38,13 +36,9 @@ data[primary_disease_cat=="CHF", primary_dis_cat := "CHF"]
 data[primary_disease_cat=="Cirrhosis" |primary_disease_cat=="Colon Cancer" |primary_disease_cat=="Coma" |primary_disease_cat=="COPD" |primary_disease_cat=="Lung Cancer", primary_dis_cat := "Other"]
 
 #removing age and primary_disease
-data = subset(data, select = -c(primary_disease_cat))
+data = subset(data, select = -c(age,primary_disease_cat))
 
 # Check NA values for each column
 sapply(data,function(x) sum(is.na(x)))
 
-data=data[complete.cases(data)]
-
 data$death <- as.factor(ifelse(data$death == "Yes", 1, 0))
-
-```
