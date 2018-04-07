@@ -4,7 +4,11 @@
 
 #pre-treatment covariates
 #pre-treatment covariates
-fit1 <-glm(death ~ primary_dis_cat + secondary_disease_cat+ cancer+cardio_com+heartfailure_com+dementia_com+psychiatric_com+pulmonary_com+renal_com+Cirrhosis_com+GIbleed_com+malign_com+immune_com+transfer_com+myocardio_com+age+sex+education+survivalProb+DASI+APACHEscore+glasgow+bloodPressure+wbc+heartRate+respRate+temperature+PaO2FIO2ratio+albumin+hematocrit+bilirubin+     creatinine+sodium+potassium+PaCo2+PH+weight+DNR+medicalInsurance+respDiag+cardioDiag+neuroDiag+gastroDiag+renalDiag+metaDiag+hemaDiag+sepsisDiag+traumaDiag+orthoDiag+urine+race+income+rhc,data=data,family=binomial)
+fit1 <-glm(death ~ primary_dis_cat + secondary_disease_cat+ cancer+cardio_com+heartfailure_com+dementia_com+
+psychiatric_com+pulmonary_com+renal_com+Cirrhosis_com+GIbleed_com+malign_com+immune_com+transfer_com+myocardio_com+
+age+sex+education+survivalProb+DASI+APACHEscore+glasgow+bloodPressure+wbc+heartRate+respRate+temperature+PaO2FIO2ratio+
+albumin+hematocrit+bilirubin+     creatinine+sodium+potassium+PaCo2+PH+weight+DNR+medicalInsurance+respDiag+cardioDiag+
+neuroDiag+gastroDiag+renalDiag+metaDiag+hemaDiag+sepsisDiag+traumaDiag+orthoDiag+race+income+rhc,data=data,family=binomial)
 summary(fit1)
 
 
@@ -41,7 +45,7 @@ results_rr <- boot(data=data, statistic=logit.bootstrap,
                    psychiatric_com+pulmonary_com+renal_com+Cirrhosis_com+GIbleed_com+malign_com+immune_com+transfer_com+myocardio_com+
                    age+sex+education+survivalProb+DASI+APACHEscore+glasgow+bloodPressure+wbc+heartRate+respRate+temperature+PaO2FIO2ratio
                    +albumin+hematocrit+bilirubin+creatinine+sodium+potassium+PaCo2+PH+weight+DNR+medicalInsurance+respDiag+cardioDiag
-                   +neuroDiag+gastroDiag+renalDiag+metaDiag+hemaDiag+sepsisDiag+traumaDiag+orthoDiag+urine+race+income+rhc)
+                   +neuroDiag+gastroDiag+renalDiag+metaDiag+hemaDiag+sepsisDiag+traumaDiag+orthoDiag+race+income+rhc)
 
 ci_rr <- confint(results_rr)
 
