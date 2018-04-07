@@ -15,6 +15,7 @@ data$cat2 <- as.factor(data$cat2)
 data$no_comorbid <- data$cardiohx + data$chfhx + data$dementhx + data$psychhx + data$chrpulhx + data$renalhx + data$liverhx + data$gibledhx + data$malighx + data$immunhx + data$transhx + data$amihx 
 
 #selecting variables only mentioned in Table 1 but not adl as most values are missing
+#remove all date variables
 data <- data %>%
   select(-c(X,adld3p,sadmdte,dschdte,dthdte,lstctdte,t3d30,dth30,ptid))
 
