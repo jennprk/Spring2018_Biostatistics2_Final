@@ -1,19 +1,18 @@
-#Question 3 - Build a model to predict whether a patient will die in the first 180 days after hospitalization, based on all pre-treatment 
-covariates. Comment on the interpretation of the coefficients of this model.
+#Question 3 - Build a model to predict whether a patient will die in the first 180 days after hospitalization, based on all pre-treatment covariates. Comment on the interpretation of the coefficients of this model.
 
 #Part 1
 
 #pre-treatment covariates
-fit1<-glm(death~temp + heart_rate + blood_pressure + resp_rate + wbc + PaO2_FIO2 + PaCo2 + ph + sodium + potassium + hematocrit + bilirubin + creatinine + albumin + glasgow_coma + age + sex + race + education + income + medical_insurance + primary_dis_cat + rch, data=data, family=binomial)
+fit1<-glm(death~temp + heart_rate + blood_pressure + resp_rate + wbc + PaO2_FIO2 + PaCo2 + ph + sodium + potassium + hematocrit + bilirubin + creatinine + albumin + glasgow_coma + age + sex + race + education + income + medical_insurance + primary_dis_cat + rhc + cancer + dnr + apache + no_comorbid + dasi, data=data, family=binomial)
 summary(fit1)
 
 #finding the correlation matrix to find out colinearity of PaO2_FIO2 since it is NA above
-my_data <- subset(data, select = c(temp, heart_rate, blood_pressure, resp_rate, wbc, PaO2_FIO2, PaCo2, ph, sodium, potassium, hematocrit, bilirubin, creatinine, albumin, glasgow_coma, age, education))
+my_data <- subset(data, select = c(temp, heart_rate, blood_pressure, resp_rate, wbc, PaO2_FIO2, PaCo2, ph, sodium, potassium, hematocrit, bilirubin, creatinine, albumin, glasgow_coma, age, education, apache, no_comorbid, dasi))
 res <- cor(my_data)
 round(res,2)
 
 #above result shows that there is a correlation of 1 with wbc, hence, we remove PaO2_FIO2, and creare a new model
-fit2<-glm(death~temp + heart_rate + blood_pressure + resp_rate + wbc + PaCo2 + ph + sodium + potassium + hematocrit + bilirubin + creatinine + albumin + glasgow_coma + age + sex + race + education + income + medical_insurance + primary_dis_cat + rch, data=data, family=binomial)
+fit2<-glm(death~temp + heart_rate + blood_pressure + resp_rate + wbc + PaCo2 + ph + sodium + potassium + hematocrit + bilirubin + creatinine + albumin + glasgow_coma + age + sex + race + education + income + medical_insurance + primary_dis_cat + rhc + cancer + dnr + apache + no_comorbid + dasi, data=data, family=binomial)
 summary(fit2)
 
 #Part 2
