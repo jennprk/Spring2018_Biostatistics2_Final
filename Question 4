@@ -4,14 +4,14 @@ data_MOSF <- subset(data, primary_dis_cat == "MOSF")
 data_CHF <- subset(data, primary_dis_cat == "CHF")
 data_Other <- subset(data, primary_dis_cat == "Other")
 
-fit_arf<-glm(death~temp + heart_rate + blood_pressure + resp_rate + wbc + PaCo2 + ph + sodium + potassium + hematocrit + bilirubin + creatinine + albumin + glasgow_coma + age + sex + race + education + income + medical_insurance + rhc + cancer + dnr + apache + no_comorbid + dasi, data=data_ARF, family=binomial)
+fit_arf<-glm(death ~ agegroup+sex+education+race+income+weight+secondary_disease_cat+cancer+cardio_com+heartfailure_com+dementia_com+psychiatric_com+pulmonary_com+renal_com+Cirrhosis_com+GIbleed_com+malign_com+immune_com+transfer_com+myocardio_com+DASI+APACHEscore+glasgow+bloodPressure+wbc+heartRate+respRate+temperature+PaO2FIO2ratio+albumin+hematocrit+bilirubin+creatinine+sodium+potassium+PaCo2+PH+DNR+medicalInsurance+respDiag+cardioDiag+neuroDiag+gastroDiag+renalDiag+metaDiag+hemaDiag+sepsisDiag+traumaDiag+orthoDiag+rhc,data=data_ARF,family=binomial)
 summary(fit_arf)
 
-fit_mosf<-glm(death~temp + heart_rate + blood_pressure + resp_rate + wbc + PaCo2 + ph + sodium + potassium + hematocrit + bilirubin + creatinine + albumin + glasgow_coma + age + sex + race + education + income + medical_insurance + rhc + cancer + dnr + apache + no_comorbid + dasi, data=data_MOSF, family=binomial)
+fit_mosf<-glm(death ~ agegroup+sex+education+race+income+weight+secondary_disease_cat+cancer+cardio_com+heartfailure_com+dementia_com+psychiatric_com+pulmonary_com+renal_com+Cirrhosis_com+GIbleed_com+malign_com+immune_com+transfer_com+myocardio_com+DASI+APACHEscore+glasgow+bloodPressure+wbc+heartRate+respRate+temperature+PaO2FIO2ratio+albumin+hematocrit+bilirubin+creatinine+sodium+potassium+PaCo2+PH+DNR+medicalInsurance+respDiag+cardioDiag+neuroDiag+gastroDiag+renalDiag+metaDiag+hemaDiag+sepsisDiag+traumaDiag+orthoDiag+rhc,data=data_MOSF,family=binomial)
 summary(fit_mosf)
 
-fit_CHF<-glm(death~temp + heart_rate + blood_pressure + resp_rate + wbc + PaCo2 + ph + sodium + potassium + hematocrit + bilirubin + creatinine + albumin + glasgow_coma + age + sex + race + education + income + medical_insurance + rhc + cancer + dnr + apache + no_comorbid + dasi, data=data_CHF, family=binomial)
-summary(fit_CHF)
+fit_chf<-glm(death ~ agegroup+sex+education+race+income+weight+secondary_disease_cat+cancer+cardio_com+heartfailure_com+dementia_com+psychiatric_com+pulmonary_com+renal_com+Cirrhosis_com+GIbleed_com+malign_com+immune_com+transfer_com+myocardio_com+DASI+APACHEscore+glasgow+bloodPressure+wbc+heartRate+respRate+temperature+PaO2FIO2ratio+albumin+hematocrit+bilirubin+creatinine+sodium+potassium+PaCo2+PH+DNR+medicalInsurance+respDiag+cardioDiag+neuroDiag+gastroDiag+renalDiag+metaDiag+hemaDiag+sepsisDiag+traumaDiag+orthoDiag+rhc,data=data_CHF,family=binomial)
+summary(fit_chf)
 
-fit_other<-glm(death~temp + heart_rate + blood_pressure + resp_rate + wbc + PaCo2 + ph + sodium + potassium + hematocrit + bilirubin + creatinine + albumin + glasgow_coma + age + sex + race + education + income + medical_insurance + rhc + cancer + dnr + apache + no_comorbid + dasi, data=data_Other, family=binomial)
+fit_other<-glm(death ~ agegroup+sex+education+race+income+weight+secondary_disease_cat+cancer+cardio_com+heartfailure_com+dementia_com+psychiatric_com+pulmonary_com+renal_com+Cirrhosis_com+GIbleed_com+malign_com+immune_com+transfer_com+myocardio_com+DASI+APACHEscore+glasgow+bloodPressure+wbc+heartRate+respRate+temperature+PaO2FIO2ratio+albumin+hematocrit+bilirubin+creatinine+sodium+potassium+PaCo2+PH+DNR+medicalInsurance+respDiag+cardioDiag+neuroDiag+gastroDiag+renalDiag+metaDiag+hemaDiag+sepsisDiag+traumaDiag+orthoDiag+rhc,data=data_Other,family=binomial)
 summary(fit_other)
