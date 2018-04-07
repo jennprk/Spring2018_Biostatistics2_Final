@@ -15,8 +15,8 @@ data_rhc1 <- as.data.frame(cbind(data[,-29], rhc=rep("RHC",nrow(data))))
 data_rhc0 <- as.data.frame(cbind(data[,-29], rhc=rep("No RHC",nrow(data))))
 data_rhc1$rhc <- as.factor(data_rhc1$rhc)
 data_rhc0$rhc <- as.factor(data_rhc0$rhc)
-p1 <- predict(fit2, newdata = data_rhc1, type = 'response')
-p0 <- predict(fit2, newdata = data_rhc0, type="response")
+p1 <- predict(fit1, newdata = data_rhc1, type = 'response')
+p0 <- predict(fit1, newdata = data_rhc0, type="response")
 rr <- mean(p1) / mean(p0)
 
 # marginal risk ratio and ci
@@ -30,17 +30,18 @@ logit.bootstrap <- function(formula, data, indices) {
   d1$rhc <- as.factor(d1$rhc)
   d$rhc <- as.factor(d$rhc)
   
-  p1 <- predict(fit2, newdata = d1, type = 'response')
-  p0 <- predict(fit2, newdata = d, type="response")
+  p1 <- predict(fit1, newdata = d1, type = 'response')
+  p0 <- predict(fit1, newdata = d, type="response")
   rr <- mean(p1) / mean(p0)
   return(rr)
 }
 
 results_rr <- boot(data=data, statistic=logit.bootstrap, 
-                   R=100, formula=death~temp + heart_rate + blood_pressure + resp_rate + wbc + 
-                     PaCo2 + ph + sodium + potassium + hematocrit + bilirubin + 
-                     creatinine + albumin + glasgow_coma + age + sex + race + 
-                     education + income + medical_insurance + primary_dis_cat + rhc)
+                   R=100, formula=death ~ primary_dis_cat+secondary_disease_cat+cancer+cardio_com+heartfailure_com+dementia_com+
+                   psychiatric_com+pulmonary_com+renal_com+Cirrhosis_com+GIbleed_com+malign_com+immune_com+transfer_com+myocardio_com+
+                   age+sex+education+survivalProb+DASI+APACHEscore+glasgow+bloodPressure+wbc+heartRate+respRate+temperature+PaO2FIO2ratio
+                   +albumin+hematocrit+bilirubin+creatinine+sodium+potassium+PaCo2+PH+weight+DNR+medicalInsurance+respDiag+cardioDiag
+                   +neuroDiag+gastroDiag+renalDiag+metaDiag+hemaDiag+sepsisDiag+traumaDiag+orthoDiag+urine+race+income+rhc)
 
 ci_rr <- confint(results_rr)
 
