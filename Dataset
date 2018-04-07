@@ -36,12 +36,14 @@ data$immune_com <- as.factor(data$immune_com)
 data$transfer_com <- as.factor(data$transfer_com)
 data$myocardio_com <- as.factor(data$myocardio_com)
 
-#creatiing age group
+#creating age group
 setDT(data)[age <50, agegroup := "<50"]
 data[age >=50 & age <60, agegroup := "50 to <60"]
 data[age >=60 & age <70, agegroup := "60 to <70"]
 data[age >=70 & age <80, agegroup := "70 to <80"]
 data[age >=80, agegroup := ">=80"]
+
+data$agegroup <- as.factor(data$agegroup)
 
 #creating disease category
 setDT(data)[primary_disease_cat=="ARF", primary_dis_cat := "ARF"]
@@ -54,5 +56,6 @@ data = subset(data, select = -c(age,primary_disease_cat))
 
 # Check NA values for each column
 sapply(data,function(x) sum(is.na(x)))
+sapply(data,function(x) levels(x))
 
 data$death <- as.factor(ifelse(data$death == "Yes", 1, 0))
