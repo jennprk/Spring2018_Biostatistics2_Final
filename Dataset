@@ -51,6 +51,8 @@ data[primary_disease_cat=="MOSF w/Malignancy" | primary_disease_cat=="MOSF w/Sep
 data[primary_disease_cat=="CHF", primary_dis_cat := "CHF"]
 data[primary_disease_cat=="Cirrhosis" |primary_disease_cat=="Colon Cancer" |primary_disease_cat=="Coma" |primary_disease_cat=="COPD" |primary_disease_cat=="Lung Cancer", primary_dis_cat := "Other"]
 
+data$primary_dis_cat <- as.factor(data$primary_dis_cat)
+
 #removing age and primary_disease
 data = subset(data, select = -c(age,primary_disease_cat))
 
