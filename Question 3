@@ -2,14 +2,18 @@
 
 #Part 1
 #pre-treatment covariates
-fit1 <-glm(death ~ agegroup+sex+education+race+income+weight+primary_dis_cat+ cancer+
-             cardio_com+heartfailure_com+dementia_com+psychiatric_com+pulmonary_com+renal_com+Cirrhosis_com+
-             GIbleed_com+malign_com+immune_com+transfer_com+myocardio_com+survivalProb+DASI+APACHEscore+glasgow+
-             bloodPressure+wbc+heartRate+respRate+temperature+PaO2FIO2ratio+albumin+hematocrit+bilirubin+creatinine+
-             sodium+potassium+PaCo2+PH+DNR+medicalInsurance+respDiag+cardioDiag+neuroDiag+gastroDiag+renalDiag+metaDiag+
-             hemaDiag+sepsisDiag+traumaDiag+orthoDiag+rhc,data=data,family="binomial")
-summary(fit1)
+fit1 <- glm(death ~ agegroup+sex+education+race+income+weight+primary_dis_cat
+            +cancer+cardio_com+heartfailure_com+dementia_com+psychiatric_com
+            +pulmonary_com+renal_com+Cirrhosis_com+GIbleed_com+malign_com
+            +immune_com+transfer_com+myocardio_com+survivalProb+DASI
+            +APACHEscore+glasgow+bloodPressure+wbc+heartRate+respRate
+            +temperature+PaO2FIO2ratio+albumin+hematocrit+bilirubin+creatinine
+            +sodium+potassium+PaCo2+PH+DNR+medicalInsurance+respDiag+cardioDiag
+            +neuroDiag+gastroDiag+renalDiag+metaDiag+hemaDiag+sepsisDiag
+            +traumaDiag+orthoDiag+rhc,data=data,family="binomial")
 
+
+summary(fit1)
 
 #Part 2
 # marginal risk ratio
@@ -74,12 +78,13 @@ logit.bootstrap.ate <- function(formula, data, indices) {
   return(ate)
 }
 
+set.seed(1234)
 
-results_rr <- boot(data=data,statistic=logit.bootstrap.rr, R=1000,formula=death~agegroup+sex+education+race+income+weight+primary_dis_cat+cancer+cardio_com+heartfailure_com+dementia_com+psychiatric_com+pulmonary_com+renal_com+Cirrhosis_com+GIbleed_com+malign_com+immune_com+transfer_com+myocardio_com+survivalProb+DASI+APACHEscore+glasgow+bloodPressure+wbc+heartRate+respRate+temperature+PaO2FIO2ratio+albumin+hematocrit+bilirubin+creatinine+sodium+potassium+PaCo2+PH+DNR+medicalInsurance+respDiag+cardioDiag+neuroDiag+gastroDiag+renalDiag+metaDiag+hemaDiag+sepsisDiag+traumaDiag+orthoDiag+rhc)
+results_rr <- boot(data=data,statistic=logit.bootstrap.rr, R=500,formula=death~agegroup+sex+education+race+income+weight+primary_dis_cat+cancer+cardio_com+heartfailure_com+dementia_com+psychiatric_com+pulmonary_com+renal_com+Cirrhosis_com+GIbleed_com+malign_com+immune_com+transfer_com+myocardio_com+survivalProb+DASI+APACHEscore+glasgow+bloodPressure+wbc+heartRate+respRate+temperature+PaO2FIO2ratio+albumin+hematocrit+bilirubin+creatinine+sodium+potassium+PaCo2+PH+DNR+medicalInsurance+respDiag+cardioDiag+neuroDiag+gastroDiag+renalDiag+metaDiag+hemaDiag+sepsisDiag+traumaDiag+orthoDiag+rhc)
 
-results_or <- boot(data=data,statistic=logit.bootstrap.or, R=1000,formula=death~agegroup+sex+education+race+income+weight+primary_dis_cat+cancer+cardio_com+heartfailure_com+dementia_com+psychiatric_com+pulmonary_com+renal_com+Cirrhosis_com+GIbleed_com+malign_com+immune_com+transfer_com+myocardio_com+survivalProb+DASI+APACHEscore+glasgow+bloodPressure+wbc+heartRate+respRate+temperature+PaO2FIO2ratio+albumin+hematocrit+bilirubin+creatinine+sodium+potassium+PaCo2+PH+DNR+medicalInsurance+respDiag+cardioDiag+neuroDiag+gastroDiag+renalDiag+metaDiag+hemaDiag+sepsisDiag+traumaDiag+orthoDiag+rhc)
+results_or <- boot(data=data,statistic=logit.bootstrap.or, R=500,formula=death~agegroup+sex+education+race+income+weight+primary_dis_cat+cancer+cardio_com+heartfailure_com+dementia_com+psychiatric_com+pulmonary_com+renal_com+Cirrhosis_com+GIbleed_com+malign_com+immune_com+transfer_com+myocardio_com+survivalProb+DASI+APACHEscore+glasgow+bloodPressure+wbc+heartRate+respRate+temperature+PaO2FIO2ratio+albumin+hematocrit+bilirubin+creatinine+sodium+potassium+PaCo2+PH+DNR+medicalInsurance+respDiag+cardioDiag+neuroDiag+gastroDiag+renalDiag+metaDiag+hemaDiag+sepsisDiag+traumaDiag+orthoDiag+rhc)
 
-results_ate <- boot(data=data,statistic=logit.bootstrap.ate, R=1000,formula=death~agegroup+sex+education+race+income+weight+primary_dis_cat+cancer+cardio_com+heartfailure_com+dementia_com+psychiatric_com+pulmonary_com+renal_com+Cirrhosis_com+GIbleed_com+malign_com+immune_com+transfer_com+myocardio_com+survivalProb+DASI+APACHEscore+glasgow+bloodPressure+wbc+heartRate+respRate+temperature+PaO2FIO2ratio+albumin+hematocrit+bilirubin+creatinine+sodium+potassium+PaCo2+PH+DNR+medicalInsurance+respDiag+cardioDiag+neuroDiag+gastroDiag+renalDiag+metaDiag+hemaDiag+sepsisDiag+traumaDiag+orthoDiag+rhc)
+results_ate <- boot(data=data,statistic=logit.bootstrap.ate, R=500,formula=death~agegroup+sex+education+race+income+weight+primary_dis_cat+cancer+cardio_com+heartfailure_com+dementia_com+psychiatric_com+pulmonary_com+renal_com+Cirrhosis_com+GIbleed_com+malign_com+immune_com+transfer_com+myocardio_com+survivalProb+DASI+APACHEscore+glasgow+bloodPressure+wbc+heartRate+respRate+temperature+PaO2FIO2ratio+albumin+hematocrit+bilirubin+creatinine+sodium+potassium+PaCo2+PH+DNR+medicalInsurance+respDiag+cardioDiag+neuroDiag+gastroDiag+renalDiag+metaDiag+hemaDiag+sepsisDiag+traumaDiag+orthoDiag+rhc)
 
 
 ci_rr <- round(confint(results_rr,type="perc"),3)
