@@ -1,4 +1,3 @@
-#Question 4 - A co-investigator in this study tells you that she believes there is a differential effect of RHC on 180-day mortality according to primary disease category. Is there any evidence in the data to support this claim? Comment.
 ```{r}
 data_ARF <- subset(data, primary_dis_cat == "ARF")
 data_MOSF <- subset(data, primary_dis_cat == "MOSF")
@@ -6,16 +5,21 @@ data_CHF <- subset(data, primary_dis_cat == "CHF")
 data_Other <- subset(data, primary_dis_cat == "Other")
 
 fit_arf <-glm(death ~ rhc + agegroup + sex + education + race + income + weight + cancer + cardio_com + heartfailure_com + dementia_com + psychiatric_com + pulmonary_com + renal_com + Cirrhosis_com + GIbleed_com + malign_com + immune_com + transfer_com + myocardio_com + DASI + APACHEscore + glasgow + bloodPressure + wbc + heartRate + respRate + temperature + PaO2FIO2ratio + albumin + hematocrit + bilirubin + creatinine + sodium + potassium + PaCo2 + PH + DNR + medicalInsurance + respDiag + cardioDiag + neuroDiag + gastroDiag + renalDiag + metaDiag + hemaDiag + sepsisDiag + traumaDiag + orthoDiag, data=data_ARF, family="binomial")
-exp(fit_arf$coefficients[2])
+arf_rhc<-exp(fit_arf$coefficients[2])
 
 fit_mosf <-glm(death ~ rhc + agegroup + sex + education + race + income + weight + cancer + cardio_com + heartfailure_com + dementia_com + psychiatric_com + pulmonary_com + renal_com + Cirrhosis_com + GIbleed_com + malign_com + immune_com + transfer_com + myocardio_com + DASI + APACHEscore + glasgow + bloodPressure + wbc + heartRate + respRate + temperature + PaO2FIO2ratio + albumin + hematocrit + bilirubin + creatinine + sodium + potassium + PaCo2 + PH + DNR + medicalInsurance + respDiag + cardioDiag + neuroDiag + gastroDiag + renalDiag + metaDiag + hemaDiag + sepsisDiag + traumaDiag + orthoDiag, data=data_MOSF, family="binomial")
-exp(fit_mosf$coefficients[2])
+mosf_rhc<-exp(fit_mosf$coefficients[2])
 
 #When we subset the data for CHF, traumaDiag is all No, hence we change it to as.numeric
 data_CHF$traumaDiag <- as.numeric(data_CHF$traumaDiag)
 fit_chf <-glm(death ~ rhc + agegroup + sex + education + race + income + weight + cancer + cardio_com + heartfailure_com + dementia_com + psychiatric_com + pulmonary_com + renal_com + Cirrhosis_com + GIbleed_com + malign_com + immune_com + transfer_com + myocardio_com + DASI + APACHEscore + glasgow + bloodPressure + wbc + heartRate + respRate + temperature + PaO2FIO2ratio + albumin + hematocrit + bilirubin + creatinine + sodium + potassium + PaCo2 + PH + DNR + medicalInsurance + respDiag + cardioDiag + neuroDiag + gastroDiag + renalDiag + metaDiag + hemaDiag + sepsisDiag + traumaDiag + orthoDiag, data=data_CHF, family="binomial")
-exp(fit_chf$coefficients[2])
+chf_rhc<-exp(fit_chf$coefficients[2])
 
 fit_other <-glm(death ~ rhc + agegroup + sex + education + race + income + weight + cancer + cardio_com + heartfailure_com + dementia_com + psychiatric_com + pulmonary_com + renal_com + Cirrhosis_com + GIbleed_com + malign_com + immune_com + transfer_com + myocardio_com + DASI + APACHEscore + glasgow + bloodPressure + wbc + heartRate + respRate + temperature + PaO2FIO2ratio + albumin + hematocrit + bilirubin + creatinine + sodium + potassium + PaCo2 + PH + DNR + medicalInsurance + respDiag + cardioDiag + neuroDiag + gastroDiag + renalDiag + metaDiag + hemaDiag + sepsisDiag + traumaDiag + orthoDiag, data=data_Other, family="binomial")
-exp(fit_other$coefficients[2])
+other_rhc<-exp(fit_other$coefficients[2])
+
+df2 <- rbind(all_rhc,arf_rhc,mosf_rhc,chf_rhc,other_rhc)
+rownames(df2)<-c("All","ARF","MOSF","CHF","Other")
+colnames(df2)<-c("Conditional Odds Ratio")
+knitr::kable(df2, align = "c")
 ```
