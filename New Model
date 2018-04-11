@@ -1,13 +1,13 @@
 fit2 <-glm(death ~ rhc + agegroup + weight + primary_dis_cat + cancer 
-             + dementia_com + psychiatric_com + APACHEscore + hematocrit 
+             + dementia_com + APACHEscore + hematocrit 
              + DNR + medicalInsurance + cardioDiag + neuroDiag + gastroDiag 
              + hemaDiag, data=data, family="binomial")
              
 fit3 <- glm(death ~ rhc + agegroup + weight + primary_dis_cat + cancer 
-             + dementia_com + psychiatric_com + APACHEscore + hematocrit 
+             + dementia_com + APACHEscore + hematocrit 
              + DNR + medicalInsurance + cardioDiag + neuroDiag + gastroDiag 
              + hemaDiag + rhc:agegroup + rhc:weight + rhc:primary_dis_cat + rhc:cancer 
-             + rhc:dementia_com + rhc:psychiatric_com + rhc:APACHEscore 
+             + rhc:dementia_com + rhc:APACHEscore 
              + rhc:hematocrit + rhc:DNR + rhc:medicalInsurance + rhc:cardioDiag + rhc:neuroDiag + rhc:gastroDiag 
              + rhc:hemaDiag, data=data, family="binomial")
        
