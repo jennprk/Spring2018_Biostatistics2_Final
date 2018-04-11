@@ -1,13 +1,13 @@
-fit2 <-glm(death ~ rhc + agegroup + sex + education + race + income + weight + primary_dis_cat + cancer + 
-             cardio_com + heartfailure_com + dementia_com + psychiatric_com + pulmonary_com + renal_com + 
-             Cirrhosis_com + GIbleed_com + malign_com + immune_com + transfer_com + myocardio_com + DASI + 
-             APACHEscore + glasgow + bloodPressure + wbc + heartRate + respRate + temperature + PaO2FIO2ratio + 
-             albumin + hematocrit + bilirubin + creatinine + sodium + potassium + PaCo2 + PH + DNR + 
-             medicalInsurance + respDiag + cardioDiag + neuroDiag + gastroDiag + renalDiag + metaDiag + 
-             hemaDiag + sepsisDiag + traumaDiag + orthoDiag + rhc:agegroup + rhc:sex + rhc:education + rhc:race + rhc:income + rhc:weight + rhc:primary_dis_cat + rhc:cancer + 
-             rhc:cardio_com + rhc:heartfailure_com + rhc:dementia_com + rhc:psychiatric_com + rhc:pulmonary_com + rhc:renal_com + 
-             rhc:Cirrhosis_com + rhc:GIbleed_com + rhc:malign_com + rhc:immune_com + rhc:transfer_com + rhc:myocardio_com + rhc:DASI + 
-             rhc:APACHEscore + rhc:glasgow + rhc:bloodPressure + rhc:wbc + rhc:heartRate + rhc:respRate + rhc:temperature + rhc:PaO2FIO2ratio + 
-             rhc:albumin + rhc:hematocrit + rhc:bilirubin + rhc:creatinine + rhc:sodium + rhc:potassium + rhc:PaCo2 + rhc:PH + rhc:DNR + 
-             rhc:medicalInsurance + rhc:respDiag + rhc:cardioDiag + rhc:neuroDiag + rhc:gastroDiag + rhc:renalDiag + rhc:metaDiag + 
-             rhc:hemaDiag + rhc:sepsisDiag + rhc:traumaDiag + rhc:orthoDiag, data=data, family="binomial")
+fit2 <-glm(death ~ rhc + agegroup + weight + primary_dis_cat + cancer 
+             + dementia_com + psychiatric_com + APACHEscore + hematocrit 
+             + DNR + medicalInsurance + cardioDiag + neuroDiag + gastroDiag 
+             + hemaDiag, data=data, family="binomial")
+             
+fit3 <- glm(death ~ rhc + agegroup + weight + primary_dis_cat + cancer 
+             + dementia_com + psychiatric_com + APACHEscore + hematocrit 
+             + DNR + medicalInsurance + cardioDiag + neuroDiag + gastroDiag 
+             + hemaDiag + rhc:agegroup + rhc:weight + rhc:primary_dis_cat + rhc:cancer 
+             + rhc:dementia_com + rhc:psychiatric_com + rhc:APACHEscore 
+             + rhc:hematocrit + rhc:DNR + rhc:medicalInsurance + rhc:cardioDiag + rhc:neuroDiag + rhc:gastroDiag 
+             + rhc:hemaDiag, data=data, family="binomial")
+       
