@@ -1,13 +1,9 @@
-fit2 <-glm(death ~ rhc + agegroup + weight + primary_dis_cat + cancer 
-             + dementia_com + APACHEscore + hematocrit 
-             + DNR + medicalInsurance + cardioDiag + neuroDiag + gastroDiag 
-             + hemaDiag, data=data, family="binomial")
-             
-fit3 <- glm(death ~ rhc + agegroup + weight + primary_dis_cat + cancer 
-             + dementia_com + APACHEscore + hematocrit 
-             + DNR + medicalInsurance + cardioDiag + neuroDiag + gastroDiag 
-             + hemaDiag + rhc:agegroup + rhc:weight + rhc:primary_dis_cat + rhc:cancer 
-             + rhc:dementia_com + rhc:APACHEscore 
-             + rhc:hematocrit + rhc:DNR + rhc:medicalInsurance + rhc:cardioDiag + rhc:neuroDiag + rhc:gastroDiag 
-             + rhc:hemaDiag, data=data, family="binomial")
-       
+fit2 <-glm(death ~ rhc+agegroup + sex + income + weight + primary_dis_cat + cancer + 
+             cardio_com + heartfailure_com + dementia_com + malign_com + immune_com +  DASI + 
+             APACHEscore + glasgow + temperature + hematocrit + bilirubin + DNR +
+             medicalInsurance + cardioDiag + neuroDiag + gastroDiag + 
+             hemaDiag + rhc:agegroup + rhc:sex + rhc:income + rhc:weight + rhc:primary_dis_cat + rhc:cancer + 
+             rhc:cardio_com + rhc:heartfailure_com + rhc:dementia_com + rhc:malign_com + rhc:immune_com +rhc:DASI + 
+             rhc:APACHEscore + rhc:glasgow + rhc:temperature + rhc:hematocrit + rhc:bilirubin + rhc:DNR +
+             rhc:medicalInsurance + rhc:cardioDiag + rhc:neuroDiag + rhc:gastroDiag + rhc:hemaDiag, data=data, family="binomial")
+
