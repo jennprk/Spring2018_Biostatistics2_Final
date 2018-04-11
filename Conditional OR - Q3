@@ -1,0 +1,30 @@
+#pre-treatment covariates
+fit1 <-glm(death ~ rhc+agegroup + sex + income + weight + primary_dis_cat + cancer + 
+             cardio_com + heartfailure_com + dementia_com + malign_com + immune_com +  DASI + 
+             APACHEscore + glasgow + temperature + hematocrit + bilirubin + DNR +
+             medicalInsurance + cardioDiag + neuroDiag + gastroDiag + 
+             hemaDiag + rhc:agegroup + rhc:sex + rhc:income + rhc:weight + rhc:primary_dis_cat + rhc:cancer + 
+             rhc:cardio_com + rhc:heartfailure_com + rhc:dementia_com + rhc:malign_com + rhc:immune_com +rhc:DASI + 
+             rhc:APACHEscore + rhc:glasgow + rhc:temperature + rhc:hematocrit + rhc:bilirubin + rhc:DNR +
+             rhc:medicalInsurance + rhc:cardioDiag + rhc:neuroDiag + rhc:gastroDiag + rhc:hemaDiag, data=data, family="binomial")
+
+data$agegroup <- as.numeric(data$agegroup)
+data$sex <- as.numeric(data$sex)
+data$income<-as.numeric(data$income)
+data$primary_dis_cat<-as.numeric(data$primary_dis_cat)
+data$cancer<-as.numeric(data$cancer)
+data$cardio_com<-as.numeric(data$cardio_com)
+data$heartfailure_com<-as.numeric(data$heartfailure_com)
+data$dementia_com<-as.numeric(data$dementia_com)
+data$malign_com<-as.numeric(data$malign_com)
+data$immune_com<-as.numeric(data$immune_com)
+data$DNR<-as.numeric(data$DNR)
+data$medicalInsurance<-as.numeric(data$medicalInsurance)
+data$cardioDiag<-as.numeric(data$cardioDiag)
+data$neuroDiag<-as.numeric(data$neuroDiag)
+data$gastroDiag<-as.numeric(data$gastroDiag)
+data$hemaDiag<-as.numeric(data$hemaDiag)
+
+summary(fit1)
+
+cor <- round(exp(summary(fit1)$coefficients[2,1] + summary(fit1)$coefficients[26,1]*data$agegroup + summary(fit1)$coefficients[27,1]*data$sex + summary(fit1)$coefficients[28,1]*data$income + summary(fit1)$coefficients[29,1]*data$weight + summary(fit1)$coefficients[30,1]*data$primary_dis_cat + summary(fit1)$coefficients[31,1]*data$cancer + summary(fit1)$coefficients[32,1]*data$cardio_com + summary(fit1)$coefficients[33,1]*data$heartfailure_com + summary(fit1)$coefficients[34,1]*data$dementia_com + summary(fit1)$coefficients[35,1]*data$malign_com + summary(fit1)$coefficients[36,1]*data$immune_com + summary(fit1)$coefficients[37,1]*data$DASI + summary(fit1)$coefficients[38,1]*data$APACHEscore + summary(fit1)$coefficients[39,1]*data$glasgow + summary(fit1)$coefficients[40,1]*data$temperature + summary(fit1)$coefficients[41,1]*data$hematocrit + summary(fit1)$coefficients[42,1]*data$bilirubin + summary(fit1)$coefficients[43,1]*data$DNR + summary(fit1)$coefficients[44,1]*data$medicalInsurance + summary(fit1)$coefficients[45,1]*data$cardioDiag + summary(fit1)$coefficients[46,1]*data$neuroDiag + summary(fit1)$coefficients[47,1]*data$gastroDiag+summary(fit1)$coefficients[48,1]*data$hemaDiag ), 3)
