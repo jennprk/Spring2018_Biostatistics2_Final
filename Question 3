@@ -2,16 +2,12 @@
 
 #Part 1
 #pre-treatment covariates
-fit1 <- glm(death ~ agegroup+sex+education+race+income+weight+primary_dis_cat
-            +cancer+cardio_com+heartfailure_com+dementia_com+psychiatric_com
-            +pulmonary_com+renal_com+Cirrhosis_com+GIbleed_com+malign_com
-            +immune_com+transfer_com+myocardio_com+survivalProb+DASI
-            +APACHEscore+glasgow+bloodPressure+wbc+heartRate+respRate
-            +temperature+PaO2FIO2ratio+albumin+hematocrit+bilirubin+creatinine
-            +sodium+potassium+PaCo2+PH+DNR+medicalInsurance+respDiag+cardioDiag
-            +neuroDiag+gastroDiag+renalDiag+metaDiag+hemaDiag+sepsisDiag
-            +traumaDiag+orthoDiag+rhc,data=data,family="binomial")
-
+fit1 <-glm(death ~ rhc + agegroup + sex + education + race + income + weight + primary_dis_cat + cancer + cardio_com 
++ heartfailure_com + dementia_com + psychiatric_com + pulmonary_com + renal_com + Cirrhosis_com + GIbleed_com + malign_com 
++ immune_com + transfer_com + myocardio_com + DASI + APACHEscore + glasgow + bloodPressure + wbc + heartRate + respRate 
++ temperature + PaO2FIO2ratio + albumin + hematocrit + bilirubin + creatinine + sodium + potassium + PaCo2 + PH + DNR 
++ medicalInsurance + respDiag + cardioDiag + neuroDiag + gastroDiag + renalDiag + metaDiag + hemaDiag + sepsisDiag 
++ traumaDiag + orthoDiag, data=data, family="binomial")
 
 summary(fit1)
 
