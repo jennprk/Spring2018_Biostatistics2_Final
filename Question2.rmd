@@ -76,12 +76,20 @@ data$death <- as.factor(ifelse(data$death == "Yes", 1, 0))
 ```
 
 ```{r}
-# Model
+
+# Model to predict whether a patient will receive RHC as a function of all pre-RHC variables
+
 fit <-glm(rhc ~ agegroup + sex + education + race + income + weight + primary_dis_cat + cancer + cardio_com + heartfailure_com + dementia_com + psychiatric_com + pulmonary_com + renal_com + Cirrhosis_com + GIbleed_com + malign_com + immune_com + transfer_com + myocardio_com + DASI + APACHEscore + glasgow + bloodPressure + wbc + heartRate + respRate + temperature + PaO2FIO2ratio + albumin + hematocrit + bilirubin + creatinine + sodium + potassium + PaCo2 + PH + DNR + medicalInsurance + respDiag + cardioDiag + neuroDiag + gastroDiag + renalDiag + metaDiag + hemaDiag + sepsisDiag + traumaDiag + orthoDiag, data=data, family="binomial")
+
 
 summary(fit)
 
 
-# odds ratios
-exp(coef(summary(fit)))
+## Final model for the treatment (RHC) 
+
+fit_2 <- glm(rhc ~ agegroup + education + weight + primary_dis_cat + cancer + dementia_com
+ + psychiatric_com + transfer_com + APACHEscore + bloodPressure + heartRate + respRate + PaO2FIO2ratio + hematocrit + sodium + potassium + PaCo2 + PH + DNR + medicalInsurance + respDiag + cardioDiag + neuroDiag + gastroDiag + renalDiag + hemaDiag + sepsisDiag + traumaDiag,data=data,family="binomial")
+
+summary(fit_2)
+
 ```
