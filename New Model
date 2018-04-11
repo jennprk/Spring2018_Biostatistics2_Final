@@ -10,4 +10,4 @@ fit2 <-glm(death ~ rhc + agegroup + sex + education + race + income + weight + p
              rhc:APACHEscore + rhc:glasgow + rhc:bloodPressure + rhc:wbc + rhc:heartRate + rhc:respRate + rhc:temperature + rhc:PaO2FIO2ratio + 
              rhc:albumin + rhc:hematocrit + rhc:bilirubin + rhc:creatinine + rhc:sodium + rhc:potassium + rhc:PaCo2 + rhc:PH + rhc:DNR + 
              rhc:medicalInsurance + rhc:respDiag + rhc:cardioDiag + rhc:neuroDiag + rhc:gastroDiag + rhc:renalDiag + rhc:metaDiag + 
-             rhc:hemaDiag + rhc:sepsisDiag + , data=data, family="binomial")
+             rhc:hemaDiag + rhc:sepsisDiag + rhc:traumaDiag + rhc:orthoDiag, data=data, family="binomial")
