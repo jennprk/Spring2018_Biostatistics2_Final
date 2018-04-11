@@ -1,61 +1,83 @@
 #Question 3 - Build a model to predict whether a patient will die in the first 180 days after hospitalization, based on all pre-treatment covariates. Comment on the interpretation of the coefficients of this model.
 
 #Deciding between models
-fit1 <-glm(death ~ rhc+agegroup + sex + income + weight + primary_dis_cat + cancer + 
-            cardio_com + heartfailure_com + dementia_com + malign_com + immune_com +  DASI + 
-            APACHEscore + glasgow + temperature + hematocrit + bilirubin + DNR +
-            medicalInsurance + cardioDiag + neuroDiag + gastroDiag + 
-            hemaDiag, data=data, family="binomial")
-
-fit2 <-glm(death ~ rhc+agegroup + sex + income + weight + primary_dis_cat + cancer + 
-             cardio_com + heartfailure_com + dementia_com + malign_com + immune_com +  DASI + 
-             APACHEscore + glasgow + temperature + hematocrit + bilirubin + DNR +
-             medicalInsurance + cardioDiag + neuroDiag + gastroDiag + 
-             hemaDiag + rhc:agegroup + rhc:sex + rhc:income + rhc:weight + rhc:primary_dis_cat + rhc:cancer + 
-             rhc:cardio_com + rhc:heartfailure_com + rhc:dementia_com + rhc:malign_com + rhc:immune_com +rhc:DASI + 
-             rhc:APACHEscore + rhc:glasgow + rhc:temperature + rhc:hematocrit + rhc:bilirubin + rhc:DNR +
-             rhc:medicalInsurance + rhc:cardioDiag + rhc:neuroDiag + rhc:gastroDiag + rhc:hemaDiag, data=data, family="binomial")
+fit1.1 <- glm(death ~ rhc+ agegroup + sex + education + race + income + weight + primary_dis_cat + 
+cancer + cardio_com + heartfailure_com + dementia_com + psychiatric_com + pulmonary_com + renal_com + 
+Cirrhosis_com + GIbleed_com + malign_com + immune_com + transfer_com + myocardio_com + DASI + APACHEscore + 
+glasgow + bloodPressure + wbc + heartRate + respRate + temperature + PaO2FIO2ratio + albumin + hematocrit + 
+bilirubin + creatinine + sodium + potassium + PaCo2 + PH + DNR + medicalInsurance + respDiag + cardioDiag + 
+neuroDiag + gastroDiag + renalDiag + metaDiag + hemaDiag + sepsisDiag + traumaDiag + orthoDiag, data=data, family="binomial")
 
 
 
 
+fit1 <- glm(death ~ rhc+agegroup + sex + income + weight + primary_dis_cat + cancer + cardio_com + 
+heartfailure_com + dementia_com + malign_com + immune_com +  DASI + APACHEscore + glasgow + temperature + 
+hematocrit + bilirubin + DNR + medicalInsurance + cardioDiag + neuroDiag + gastroDiag +  hemaDiag, data=data, family="binomial")
+
+
+
+
+fit2 <-glm(death ~ rhc + agegroup + sex + income + weight + primary_dis_cat +
+             cancer + cardio_com + heartfailure_com + dementia_com + 
+             malign_com + immune_com +  DASI + APACHEscore + glasgow +
+             temperature + hematocrit + bilirubin + DNR + medicalInsurance +
+             cardioDiag + neuroDiag + gastroDiag + hemaDiag + rhc:agegroup +
+             rhc:sex + rhc:income + rhc:weight + rhc:primary_dis_cat +
+             rhc:cancer +rhc:cardio_com + rhc:heartfailure_com +
+             rhc:dementia_com + rhc:malign_com + rhc:immune_com +rhc:DASI +
+             rhc:APACHEscore + rhc:glasgow + rhc:temperature + rhc:hematocrit+
+             rhc:bilirubin + rhc:DNR +rhc:medicalInsurance + rhc:cardioDiag +
+             rhc:neuroDiag + rhc:gastroDiag + rhc:hemaDiag, data=data,
+             family="binomial")
 
 n <- nrow(data)
 set.seed(123)
-train<- sample(n, n*0.5)
+train <- sample(n, n*0.5)
 
 dtrain<- data[train,]
 dtest<- data[-train,]
 
+pred1.1test <- predict(fit1.1, newdata = dtest, type = 'response')
 pred1test <- predict(fit1, newdata = dtest, type = 'response')
 pred2test <- predict(fit2, newdata = dtest, type = 'response')
 
-CE_test1<--(mean(as.numeric(dtest$death) * log(pred1test) + (1-as.numeric(dtest$death)) * log(1 - pred1test)))
-CE_test2<--(mean(as.numeric(dtest$death) * log(pred2test) + (1-as.numeric(dtest$death)) * log(1 - pred2test)))
+CE_test1.1 <- -(mean(as.numeric(dtest$death) * log(pred1.1test) + (1-as.numeric(dtest$death)) * log(1 - pred1.1test)))
 
-cbind(CE_test1, CE_test2)
+CE_test1 <- -(mean(as.numeric(dtest$death) * log(pred1test) + (1-as.numeric(dtest$death)) * log(1 - pred1test)))
+
+CE_test2 <- -(mean(as.numeric(dtest$death) * log(pred2test) + (1-as.numeric(dtest$death)) * log(1 - pred2test)))
+
+cbind(CE_test1.1, CE_test1, CE_test2)
 
 library(pROC)
 
-roc1test<-roc(dtest$death~pred1test)
-roc2test<-roc(dtest$death~pred2test) 
+roc1.1test <- roc(dtest$death~pred1.1test)
+roc1test <- roc(dtest$death~pred1test) 
+roc2test <- roc(dtest$death~pred2test) 
 
-plot(roc1test, print.thres=TRUE,print.auc=TRUE, col=1, main="ROC of model 1 test")
+plot(roc1.1test, print.thres=TRUE,print.auc=TRUE, col=1, main="ROC of model 1.1 test")
 
-plot(roc2test,print.thres=TRUE, print.auc=TRUE, col=4, main="ROC of model 2 test")
+plot(roc1test,print.thres=TRUE, print.auc=TRUE, col=4, main="ROC of model 1.2 test")
+
+plot(roc2test,print.thres=TRUE, print.auc=TRUE, col=3, main="ROC of model 2 test")
 
 
 
 #Part 1 - Choosing the model with interactions due to AUC and CE
 #pre-treatment covariates
-fit1 <-glm(death ~ rhc+agegroup + sex + income + weight + primary_dis_cat + cancer + 
-             cardio_com + heartfailure_com + dementia_com + malign_com + immune_com +  DASI + 
-             APACHEscore + glasgow + temperature + hematocrit + bilirubin + DNR +
-             medicalInsurance + cardioDiag + neuroDiag + gastroDiag + 
-             hemaDiag + rhc:agegroup + rhc:sex + rhc:income + rhc:weight + rhc:primary_dis_cat + rhc:cancer + 
-             rhc:cardio_com + rhc:heartfailure_com + rhc:dementia_com + rhc:malign_com + rhc:immune_com +rhc:DASI + 
-             rhc:APACHEscore + rhc:glasgow + rhc:temperature + rhc:hematocrit + rhc:bilirubin + rhc:DNR +
-             rhc:medicalInsurance + rhc:cardioDiag + rhc:neuroDiag + rhc:gastroDiag + rhc:hemaDiag, data=data, family="binomial")
+fit1 <- glm(death ~ rhc + agegroup + sex + income + weight + primary_dis_cat +
+             cancer + cardio_com + heartfailure_com + dementia_com + 
+             malign_com + immune_com +  DASI + APACHEscore + glasgow +
+             temperature + hematocrit + bilirubin + DNR + medicalInsurance +
+             cardioDiag + neuroDiag + gastroDiag + hemaDiag + rhc:agegroup +
+             rhc:sex + rhc:income + rhc:weight + rhc:primary_dis_cat +
+             rhc:cancer +rhc:cardio_com + rhc:heartfailure_com +
+             rhc:dementia_com + rhc:malign_com + rhc:immune_com +rhc:DASI +
+             rhc:APACHEscore + rhc:glasgow + rhc:temperature + rhc:hematocrit+
+             rhc:bilirubin + rhc:DNR +rhc:medicalInsurance + rhc:cardioDiag +
+             rhc:neuroDiag + rhc:gastroDiag + rhc:hemaDiag, data=data,
+             family="binomial")
 
 summary(fit1)
 
@@ -72,6 +94,7 @@ p0 <- predict(fit1, newdata = data_rhc0, type= "response")
 rr <- round(mean(p1) / mean(p0), 3)
 or <- round((mean(p1)/(1-mean(p1))) / (mean(p0)/(1-mean(p0))), 3)
 ate <- round(mean(p1) - mean(p0), 3)
+
 
 # marginal risk ratio and ci
 logit.bootstrap.rr <- function(formula, data, indices) {
@@ -122,43 +145,25 @@ logit.bootstrap.ate <- function(formula, data, indices) {
   return(ate)
 }
 
-set.seed(1234)
 
-results_rr <- boot(data=data,statistic=logit.bootstrap.rr, R=500,formula=death ~ rhc+agegroup + sex + income + weight + primary_dis_cat + cancer + 
-             cardio_com + heartfailure_com + dementia_com + malign_com + immune_com +  DASI + 
-             APACHEscore + glasgow + temperature + hematocrit + bilirubin + DNR +
-             medicalInsurance + cardioDiag + neuroDiag + gastroDiag + 
-             hemaDiag + rhc:agegroup + rhc:sex + rhc:income + rhc:weight + rhc:primary_dis_cat + rhc:cancer + 
-             rhc:cardio_com + rhc:heartfailure_com + rhc:dementia_com + rhc:malign_com + rhc:immune_com +rhc:DASI + 
-             rhc:APACHEscore + rhc:glasgow + rhc:temperature + rhc:hematocrit + rhc:bilirubin + rhc:DNR +
-             rhc:medicalInsurance + rhc:cardioDiag + rhc:neuroDiag + rhc:gastroDiag + rhc:hemaDiag)
+#set.seed(1234)
 
-results_or <- boot(data=data,statistic=logit.bootstrap.or, R=500,formula=death ~ rhc+agegroup + sex + income + weight + primary_dis_cat + cancer + 
-             cardio_com + heartfailure_com + dementia_com + malign_com + immune_com +  DASI + 
-             APACHEscore + glasgow + temperature + hematocrit + bilirubin + DNR +
-             medicalInsurance + cardioDiag + neuroDiag + gastroDiag + 
-             hemaDiag + rhc:agegroup + rhc:sex + rhc:income + rhc:weight + rhc:primary_dis_cat + rhc:cancer + 
-             rhc:cardio_com + rhc:heartfailure_com + rhc:dementia_com + rhc:malign_com + rhc:immune_com +rhc:DASI + 
-             rhc:APACHEscore + rhc:glasgow + rhc:temperature + rhc:hematocrit + rhc:bilirubin + rhc:DNR +
-             rhc:medicalInsurance + rhc:cardioDiag + rhc:neuroDiag + rhc:gastroDiag + rhc:hemaDiag)
+#results_rr <- boot(data=data,statistic=logit.bootstrap.rr, R=100,formula=death ~ rhc + agegroup + sex + income + weight + primary_dis_cat + cancer + cardio_com + heartfailure_com + dementia_com + malign_com + immune_com +  DASI + APACHEscore + glasgow + temperature + hematocrit + bilirubin + DNR + medicalInsurance + cardioDiag + neuroDiag + gastroDiag + hemaDiag + rhc:agegroup + rhc:sex + rhc:income + rhc:weight + rhc:primary_dis_cat + rhc:cancer +rhc:cardio_com + rhc:heartfailure_com + rhc:dementia_com + rhc:malign_com + rhc:immune_com +rhc:DASI + rhc:APACHEscore + rhc:glasgow + rhc:temperature + rhc:hematocrit + rhc:bilirubin + rhc:DNR +rhc:medicalInsurance + rhc:cardioDiag + rhc:neuroDiag + rhc:gastroDiag + rhc:hemaDiag)
+
+
+#results_or <- boot(data=data,statistic=logit.bootstrap.or, R=100,formula=death ~ rhc + agegroup + sex + income + weight + primary_dis_cat + cancer + cardio_com + heartfailure_com + dementia_com + malign_com + immune_com +  DASI + APACHEscore + glasgow + temperature + hematocrit + bilirubin + DNR + medicalInsurance + cardioDiag + neuroDiag + gastroDiag + hemaDiag + rhc:agegroup + rhc:sex + rhc:income + rhc:weight + rhc:primary_dis_cat + rhc:cancer +rhc:cardio_com + rhc:heartfailure_com + rhc:dementia_com + rhc:malign_com + rhc:immune_com +rhc:DASI + rhc:APACHEscore + rhc:glasgow + rhc:temperature + rhc:hematocrit + rhc:bilirubin + rhc:DNR +rhc:medicalInsurance + rhc:cardioDiag + rhc:neuroDiag + rhc:gastroDiag + rhc:hemaDiag)
              
-results_ate <- boot(data=data,statistic=logit.bootstrap.ate, R=500,formula=death ~ rhc+agegroup + sex + income + weight + primary_dis_cat + cancer + 
-             cardio_com + heartfailure_com + dementia_com + malign_com + immune_com +  DASI + 
-             APACHEscore + glasgow + temperature + hematocrit + bilirubin + DNR +
-             medicalInsurance + cardioDiag + neuroDiag + gastroDiag + 
-             hemaDiag + rhc:agegroup + rhc:sex + rhc:income + rhc:weight + rhc:primary_dis_cat + rhc:cancer + 
-             rhc:cardio_com + rhc:heartfailure_com + rhc:dementia_com + rhc:malign_com + rhc:immune_com +rhc:DASI + 
-             rhc:APACHEscore + rhc:glasgow + rhc:temperature + rhc:hematocrit + rhc:bilirubin + rhc:DNR +
-             rhc:medicalInsurance + rhc:cardioDiag + rhc:neuroDiag + rhc:gastroDiag + rhc:hemaDiag)
+#results_ate <- boot(data=data,statistic=logit.bootstrap.ate, R=100,formula=death ~ rhc + agegroup + sex + income + weight + primary_dis_cat + cancer + cardio_com + heartfailure_com + dementia_com + malign_com + immune_com +  DASI + APACHEscore + glasgow + temperature + hematocrit + bilirubin + DNR + medicalInsurance + cardioDiag + neuroDiag + gastroDiag + hemaDiag + rhc:agegroup + rhc:sex + rhc:income + rhc:weight + rhc:primary_dis_cat + rhc:cancer +rhc:cardio_com + rhc:heartfailure_com + rhc:dementia_com + rhc:malign_com + rhc:immune_com +rhc:DASI + rhc:APACHEscore + rhc:glasgow + rhc:temperature + rhc:hematocrit + rhc:bilirubin + rhc:DNR +rhc:medicalInsurance + rhc:cardioDiag + rhc:neuroDiag + rhc:gastroDiag + rhc:hemaDiag)
 
-ci_rr <- round(confint(results_rr,type="perc"),3)
-ci_or <- round(confint(results_or,type="perc"),3)
-ci_ate <- round(confint(results_ate,type="perc"),3)
+#ci_rr <- round(confint(results_rr,type="perc"),3)
+#ci_or <- round(confint(results_or,type="perc"),3)
+#ci_ate <- round(confint(results_ate,type="perc"),3)
 
-# tables
-x <- rbind(rr, or, ate)
-y <- rbind(ci_rr, ci_or, ci_ate)
-z <- cbind(x,y)
-colnames(z) <- c("Value", "Lower CI Bound", "Upper CI Bound")
-rownames(z) <- c("MRR", "MOR", "MATE")
-knitr::kable(z)
+## tables
+#x <- rbind(rr, or, ate)
+#y <- rbind(ci_rr, ci_or, ci_ate)
+#z <- cbind(x,y)
+#colnames(z) <- c("Value", "Lower CI Bound", "Upper CI Bound")
+#rownames(z) <- c("MRR", "MOR", "MATE")
+#knitr::kable(z)
+
