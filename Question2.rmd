@@ -79,17 +79,62 @@ data$death <- as.factor(ifelse(data$death == "Yes", 1, 0))
 
 # Model to predict whether a patient will receive RHC as a function of all pre-RHC variables
 
-fit <-glm(rhc ~ agegroup + sex + education + race + income + weight + primary_dis_cat + cancer + cardio_com + heartfailure_com + dementia_com + psychiatric_com + pulmonary_com + renal_com + Cirrhosis_com + GIbleed_com + malign_com + immune_com + transfer_com + myocardio_com + DASI + APACHEscore + glasgow + bloodPressure + wbc + heartRate + respRate + temperature + PaO2FIO2ratio + albumin + hematocrit + bilirubin + creatinine + sodium + potassium + PaCo2 + PH + DNR + medicalInsurance + respDiag + cardioDiag + neuroDiag + gastroDiag + renalDiag + metaDiag + hemaDiag + sepsisDiag + traumaDiag + orthoDiag, data=data, family="binomial")
+fit <- glm(rhc ~ agegroup + sex + education + race + income + weight + primary_dis_cat + cancer + cardio_com + heartfailure_com + dementia_com + psychiatric_com + pulmonary_com + renal_com + Cirrhosis_com + GIbleed_com + malign_com + immune_com + transfer_com + myocardio_com + DASI + APACHEscore + glasgow + bloodPressure + wbc + heartRate + respRate + temperature + PaO2FIO2ratio + albumin + hematocrit + bilirubin + creatinine + sodium + potassium + PaCo2 + PH + DNR + medicalInsurance + respDiag + cardioDiag + neuroDiag + gastroDiag + renalDiag + metaDiag + hemaDiag + sepsisDiag + traumaDiag + orthoDiag, data=data, family="binomial")
 
 
-summary(fit)
+# summary(fit)
+
+dfp <- function(p.val){
+  format.pval(pv = p.val, eps = 0.001, nsmall = 3)
+}
+
+Coefficient <- round(summary(fit)$coefficients[,1], 3)
+p.value <- dfp(round(summary(fit)$coefficients[,4], 3))
+
+x <- cbind(Coefficient, p.value)
+knitr::kable(x, align = "c")
 
 
-## Final model for the treatment (RHC) 
+
+
+## Final model for the treatment (RHC) only including significant 
 
 fit_2 <- glm(rhc ~ agegroup + education + weight + primary_dis_cat + cancer + dementia_com
  + psychiatric_com + transfer_com + APACHEscore + bloodPressure + heartRate + respRate + PaO2FIO2ratio + hematocrit + sodium + potassium + PaCo2 + PH + DNR + medicalInsurance + respDiag + cardioDiag + neuroDiag + gastroDiag + renalDiag + hemaDiag + sepsisDiag + traumaDiag,data=data,family="binomial")
 
 summary(fit_2)
+
+```
+
+
+
+```{r}
+# compare between fit and fit_2
+# using Cross entropy and AUC
+
+n <- nrow(data)
+set.seed(123)
+train<- sample(n, n*0.7)
+
+dtrain<- data[train,]
+dtest<- data[-train,]
+
+pred1test <- predict(fit, newdata = dtest, type = 'response')
+pred2test <- predict(fit_2, newdata = dtest, type = 'response')
+
+CE_test1<--(mean(as.numeric(dtest$death) * log(pred1test) + (1-as.numeric(dtest$death)) * log(1 - pred1test)))
+CE_test2<--(mean(as.numeric(dtest$death) * log(pred2test) + (1-as.numeric(dtest$death)) * log(1 - pred2test)))
+
+t <- cbind(CE_test1, CE_test2)
+knitr::kable(t)
+
+library(pROC)
+
+roc1test<-roc(dtest$death~pred1test)
+roc2test<-roc(dtest$death~pred2test) 
+
+p1 <- plot(roc1test, print.thres=TRUE,print.auc=TRUE, col=1, main="ROC of model 1 test")
+
+p2 <- plot(roc2test,print.thres=TRUE, print.auc=TRUE, col=4, main="ROC of model 2 test")
 
 ```
