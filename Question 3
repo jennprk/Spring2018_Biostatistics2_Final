@@ -78,7 +78,7 @@ logit.bootstrap.ate <- function(formula, data, indices) {
 
 set.seed(1234)
 
-results_rr <- boot(data=data,statistic=logit.bootstrap.rr, R=500,formula=rhc+agegroup + sex + income + weight + primary_dis_cat + cancer + 
+results_rr <- boot(data=data,statistic=logit.bootstrap.rr, R=500,formula=death ~ rhc+agegroup + sex + income + weight + primary_dis_cat + cancer + 
              cardio_com + heartfailure_com + dementia_com + malign_com + immune_com +  DASI + 
              APACHEscore + glasgow + temperature + hematocrit + bilirubin + DNR +
              medicalInsurance + cardioDiag + neuroDiag + gastroDiag + 
@@ -87,7 +87,7 @@ results_rr <- boot(data=data,statistic=logit.bootstrap.rr, R=500,formula=rhc+age
              rhc:APACHEscore + rhc:glasgow + rhc:temperature + rhc:hematocrit + rhc:bilirubin + rhc:DNR +
              rhc:medicalInsurance + rhc:cardioDiag + rhc:neuroDiag + rhc:gastroDiag + rhc:hemaDiag)
 
-results_or <- boot(data=data,statistic=logit.bootstrap.or, R=500,formula=rhc+agegroup + sex + income + weight + primary_dis_cat + cancer + 
+results_or <- boot(data=data,statistic=logit.bootstrap.or, R=500,formula=death ~ rhc+agegroup + sex + income + weight + primary_dis_cat + cancer + 
              cardio_com + heartfailure_com + dementia_com + malign_com + immune_com +  DASI + 
              APACHEscore + glasgow + temperature + hematocrit + bilirubin + DNR +
              medicalInsurance + cardioDiag + neuroDiag + gastroDiag + 
@@ -96,7 +96,7 @@ results_or <- boot(data=data,statistic=logit.bootstrap.or, R=500,formula=rhc+age
              rhc:APACHEscore + rhc:glasgow + rhc:temperature + rhc:hematocrit + rhc:bilirubin + rhc:DNR +
              rhc:medicalInsurance + rhc:cardioDiag + rhc:neuroDiag + rhc:gastroDiag + rhc:hemaDiag)
              
-results_ate <- boot(data=data,statistic=logit.bootstrap.ate, R=500,formula=rhc+agegroup + sex + income + weight + primary_dis_cat + cancer + 
+results_ate <- boot(data=data,statistic=logit.bootstrap.ate, R=500,formula=death ~ rhc+agegroup + sex + income + weight + primary_dis_cat + cancer + 
              cardio_com + heartfailure_com + dementia_com + malign_com + immune_com +  DASI + 
              APACHEscore + glasgow + temperature + hematocrit + bilirubin + DNR +
              medicalInsurance + cardioDiag + neuroDiag + gastroDiag + 
