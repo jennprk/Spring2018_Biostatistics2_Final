@@ -18,8 +18,8 @@ func <- function(x) {
   t1 <- cbind(a, b$n)
   colnames(t1) <- c("variable","a","b")
   
-  t1$RCH= paste0(format(t1$a),"(",format(round(t1$a/2184*100,0)),")")
-  t1$NoRCH= paste0(format(t1$b),"(",format(round(t1$b/3551*100,0)),")")
+  t1$RHC= paste0(format(t1$a),"(",format(round(t1$a/2184*100,0)),")")
+  t1$NoRHC= paste0(format(t1$b),"(",format(round(t1$b/3551*100,0)),")")
   
   t1 <- as.data.frame(t1)
   t1 = subset(t1, select = c("variable","RHC","NoRHC"))
@@ -36,13 +36,18 @@ func <- function(x) {
   rbind(df,t1)
 }
 
-t1<-func(agegroup)
+t1<-func(cancer)
 t2<-func(sex)
-t3<-func(race)
-t4<-func(primary_dis_cat)
-t5<-func(cancer)
-t6<-func(dnr)
+t3<-func(DNR)
+t4<-func(medicalInsurance)
+t5<-func(race)
+t6<-func(income)
+t7<-func(agegroup)
+t8<-func(cancer)
+t9<-func(primary_dis_cat)
 
-df <- rbind(t1,t2,t3,t4,t5,t6)
+df <- rbind(t1,t2,t3,t4,t5,t6,t7,t8,t9)
+colnames(df)<-c("Categorical Variable","RHC (%)", "No RHC (%)")
+
 
 knitr::kable(df, align = "c")
