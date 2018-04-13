@@ -1,0 +1,30 @@
+#creating the first half of table1
+dat1 <- data %>%
+  filter(rhc=="RHC")
+
+dat2 <- data %>%
+  filter(rhc=="No RHC")
+dat<-data
+fisher.test(dat$sex,dat$rhc)
+fisher.test(dat$DNR,dat$rhc)
+chisq.test(dat$medicalInsurance,dat$rhc)
+chisq.test(dat$race,dat$rhc)
+chisq.test(dat$cancer,dat$rhc)
+chisq.test(dat$primary_dis_cat,dat$rhc)
+chisq.test(dat$income,dat$rhc)
+chisq.test(dat$agegroup,dat$rhc)
+t.test(dat1$APACHEscore,dat2$APACHEscore)
+t.test(dat1$survivalProb,dat2$survivalProb)
+t.test(dat1$no_comorbid,dat2$no_comorbid)
+t.test(dat1$DASI,dat2$DASI)
+t.test(dat1$temperature,dat2$temperature)
+t.test(dat1$heartRate,dat2$heartRate)
+t.test(dat1$bloodPressure,dat2$bloodPressure)
+t.test(dat1$glasgow,dat2$glasgow)
+t.test(dat1$respRate,dat2$respRate)
+t.test(dat1$wbc,dat2$wbc)
+t.test(dat1$PaO2FIO2ratio,dat2$PaO2FIO2ratio)
+t.test(dat1$PaCo2,dat2$PaCo2)
+t.test(dat1$PH,dat2$PH)
+t.test(dat1$creatinine,dat2$creatinine)
+t.test(dat1$albumin,dat2$albumin)
